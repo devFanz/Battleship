@@ -7,16 +7,16 @@ class Player:
 		self.name = name
 		self.board = Board()
 		# self.enemy_board = Board()
-		# self.ships = [
-		# ("Carrier", 5),
-		# ("Battleship", 4),
-		# ("Cruiser", 3),
-		# ("Submarine", 3),
-		# ("Destroyer", 2)
-		# ]
 		self.ships = [
-		("Carrier", 5)
+		("Carrier", 5),
+		("Battleship", 4),
+		("Cruiser", 3),
+		("Submarine", 3),
+		("Destroyer", 2)
 		]
+		# self.ships = [
+		# ("Carrier", 5)
+		# ]
 	def place_fleet(self):
 		for ship_name, ship_size in self.ships:
 			placed = False
