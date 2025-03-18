@@ -1,3 +1,6 @@
+import os
+import platform
+
 from player import Player
 
 
@@ -14,6 +17,10 @@ class Game:
 		for player in self.players:
 			print(f"\n{player.name}, place your fleet.")
 			player.place_fleet()
+			print("Pass this to the other player")
+			input(f"Press enter for {player.name} turn")
+			self.clear_screen()
+			# print("\033[H\033[J", end="")
 			
 	def play_turn(self, attacker, defender):
 		print(f"\n{attacker.name}'s turn:'")
@@ -52,7 +59,7 @@ class Game:
 			print("💦 MISS!💦")
 			defender.board.grid[row][col] = '💦'
 		defender.board.print_board()
-		input()
+		input("Press enter to conitnue")
 		
 
 	def all_sunk(self, player):
@@ -63,11 +70,22 @@ class Game:
 		current_player, opponent = self.players
 		
 		while True:
+			self.clear_screen()
+			# print("\033[H\033[J", end="")
+			print(f"Pass this to {current_player.name}")
+			input("Press enter to conitnue")
 			self.play_turn(current_player, opponent)
 			if self.all_sunk(opponent):
 				print(f"\n🎉 {current_player.name} WINS! 🎉")
 				break
 			current_player, opponent = opponent, current_player
+
+	def clear_screen(self):
+		# if platform.system() == 'Windows':
+		# 	os.system('cls')
+		# else:  # Linux/Mac
+		# 	os.system('clear')
+		os.system('cls||clear')
 
 if __name__ == "__main__":
 	game = Game()
