@@ -25,11 +25,11 @@ class Player:
 				# print(f"The ship will be placed at the row ")
 				
 				try:
-					row = int(input("Enter row (0-9): "))
-					col = int(input("Enter column (0-9): "))
+					row = int(input("Enter row (1-10): "))
+					col = int(input("Enter column (1-10): "))
 					vertical = input("Vertical? (y/n): ").lower() == 'y'
 				except ValueError:
-					print("invalid input! Use numbers 0-9")
+					print("invalid input! Use numbers 1-10")
 					continue
 				
 				placed = self.board.place_ship(Ship(ship_name,ship_size),row, col, vertical)

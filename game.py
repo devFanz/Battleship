@@ -31,11 +31,11 @@ class Game:
 		
 		while True:
 			try:
-				row = int(input("Attack row (0-9): "))
-				col = int(input("Attack column (0-9): "))
+				row = int(input("Attack row (1-10): ")) - 1
+				col = int(input("Attack column (1-10): ")) - 1
 
 				if not (0 <= row < 10) or not (0 <= col < 10):
-					print("Invalid coordinates! Use 0-9")
+					print("Invalid coordinates! Use 1-10")
 					continue
 
 				if defender.board.grid[row][col] in ('💥', '💦'):
@@ -44,7 +44,7 @@ class Game:
 
 				break
 			except ValueError:
-				print("Invalid coordinates! Use 0-9")
+				print("Invalid coordinates! Use 1-10")
 		
 		if defender.board.grid[row][col] == '🚢':
 			print("💥 HIT!💥")
