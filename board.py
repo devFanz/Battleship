@@ -58,7 +58,7 @@ class Board:
                         print(f"Column {start_col+i}, row {start_row} is occupied!")
                     return False
 
-        ship_emoji = '🛡️ ' if ship.name == "Shield" else '🚢'
+        ship_emoji = '🛡️ ' if "Shield" in ship.name else '🚢'
         for i in range(ship.size):
             if is_vertical:
                 self.grid[row+i][col] = ship_emoji
