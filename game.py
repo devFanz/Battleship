@@ -7,14 +7,39 @@ from player import Player
 class Game:
 	def __init__(self):
 		self.players = []
-		
-	def setup(self):
-		print("===BATTLESHIP===")
+		self.game_mode = 1
+
+	def start_menu(self):
+		# print("===BATTLESHIP===")
+		print("""
+		===BATTLESHIP===
+        1. Classic Mode
+        2. Rapid Fire Mode
+        3. Exit
+        """)
+		while True:
+			mode = input("Select mode:")
+			try:
+				mode = int(mode)
+			except ValueError:
+				print(f"Invalid number: '{mode}'. Please enter a valid numeric string.")
+				continue
+			self.game_mode = mode
+			if self.game_mode == 1 or self.game_mode == 2:
+				self.play()
+				break
+			elif self.game_mode == 3:
+				exit()
+			else:
+				print("Invalid choice! Please enter 1-3")
+			
+	def setup_board(self):
 		p1 = Player("Player 1")
 		p2 = Player("Player 2")
 		self.players = [p1, p2]
 		
 		for player in self.players:
+			player.board.print_board()
 			print(f"\n{player.name}, place your fleet.")
 			player.place_fleet()
 			print("Pass this to the other player")
@@ -46,6 +71,7 @@ class Game:
 			except ValueError:
 				print("Invalid coordinates! Use 1-10")
 		
+		hit = False
 		if defender.board.grid[row][col] == '🚢':
 			print("💥 HIT!💥")
 			defender.board.grid[row][col] = '💥'
@@ -55,18 +81,20 @@ class Game:
 					ship.hits += 1
 					if ship.is_sunk():
 						print(f"{ship.name} SUNK! 🎯")
+			hit = True
 		else:
 			print("💦 MISS!💦")
 			defender.board.grid[row][col] = '💦'
 		defender.board.print_board()
 		input("Press enter to conitnue")
+		return hit
 		
 
 	def all_sunk(self, player):
 		return all(ship.is_sunk() for ship in player.board.ships)
 	
 	def play(self):
-		self.setup()
+		self.setup_board()
 		current_player, opponent = self.players
 		
 		while True:
@@ -74,7 +102,9 @@ class Game:
 			# print("\033[H\033[J", end="")
 			print(f"Pass this to {current_player.name}")
 			input("Press enter to conitnue")
-			self.play_turn(current_player, opponent)
+			hit = self.play_turn(current_player, opponent)
+			while self.game_mode == 2 and hit:
+				hit = self.play_turn(current_player, opponent)
 			if self.all_sunk(opponent):
 				print(f"\n🎉 {current_player.name} WINS! 🎉")
 				break
@@ -89,4 +119,4 @@ class Game:
 
 if __name__ == "__main__":
 	game = Game()
-	game.play()
+	game.start_menu()
