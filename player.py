@@ -5,7 +5,7 @@ from ship import Ship
 
 
 class Player:
-	def __init__(self, name, use_shields=False):
+	def __init__(self, name, shield_count=0):
 		self.name = name
 		self.board = Board()
 		# self.enemy_board = Board()
@@ -16,8 +16,8 @@ class Player:
 		("Submarine", 3),
 		("Destroyer", 2)
 		]
-		if use_shields:
-			self.ships.append(("Shield", 1))
+		for i in range(1, shield_count+1):
+			self.ships.append((f"Shield {i}", 1))
 	def place_fleet(self):
 		for ship_name, ship_size in self.ships:
 			placed = False

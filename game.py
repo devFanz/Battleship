@@ -20,7 +20,7 @@ class Game:
         "2. Rapid Fire Mode\n"
         "3. Exit"
         )
-		demo = Player("Demo", True)
+		demo = Player("Demo", 5)
 		demo.auto_place_fleet(True)
 		while True:
 			mode = input("Select mode:")
@@ -41,13 +41,26 @@ class Game:
 	def setup_board(self):
 		
 		print("\nSpecial Game Rules:")
-		use_shields = input(
-			"🛡️  Shield 🛡️\n"
-			"When hit: Automatically reflects a guaranteed hit to attacker\n"
-			"*Shield does not count as a ship you need to sink\n"
-			"Enable Shield ships for both players? (y/n):").lower() == 'y'
-		p1 = Player("Player 1", use_shields)
-		p2 = Player("Player 2", use_shields)
+
+		shield_count = 0
+		while True:
+			try:
+				shield_count = int(input(
+					"🛡️  Shield 🛡️\n"
+					"When hit: Automatically reflects a guaranteed hit to attacker\n"
+					"When hit: Reflects guaranteed hit to attacker\n"
+					"Shields don't count toward victory\n"
+					"🛡️  Number of Shields (0-5) 🛡️\n"
+					"Enter number of shields per player (0-5): "
+				))
+				if 0 <= shield_count <= 5:
+					break
+				print("Please enter a number between 0-5")
+			except ValueError:
+				print("Invalid input! Use numbers only")
+
+		p1 = Player("Player 1", shield_count)
+		p2 = Player("Player 2", shield_count)
 		self.players = [p1, p2]
 		
 		for player in self.players:
@@ -85,13 +98,15 @@ class Game:
 			except ValueError:
 				print("Invalid coordinates! Use 1-10")
 		
+		hit_col = col + 1
+		hit_row = row + 1
 		hit = False
 		shield_ship = None
 		if defender.board.grid[row][col] == '🚢':
 			print("💥 HIT!💥")
 			defender.board.grid[row][col] = '💥'
 			for ship in defender.board.ships:
-				if (col + 1, row + 1) in ship.positions:
+				if (hit_col, hit_row) in ship.positions:
 					ship.hits += 1
 					if ship.is_sunk():
 						print(f"{ship.name} SUNK! 🎯")
@@ -100,7 +115,10 @@ class Game:
 			print("\n💥 SHIELD IMPACT! 💥")
 			defender.board.grid[row][col] = '⛨ '
 			
-			shield_ship = next(ship for ship in defender.board.ships if ship.name == "Shield")
+			shield_ship = next(
+				ship for ship in defender.board.ships 
+				if "Shield" in ship.name and (hit_col, hit_row) in ship.positions
+			)
 			shield_ship.hits = 1
 			
 			print("🛡️ ENERGY DEFLECTION ACTIVATED!")
@@ -118,7 +136,7 @@ class Game:
 		return all(
 			ship.is_sunk() 
 			for ship in player.board.ships 
-			if ship.name != "Shield"
+			if "Shield" not in ship.name 
 		)
 	
 	def play(self):
@@ -156,7 +174,6 @@ class Game:
 
 		if not viable_targets:
 			print("No valid targets for deflection!")
-			print(f"{viable_targets}")
 			return
 
 		target_col, target_row, target_ship = random.choice(viable_targets)
