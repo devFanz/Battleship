@@ -17,6 +17,8 @@ class Game:
         2. Rapid Fire Mode
         3. Exit
         """)
+		demo = Player("Demo")
+		demo.auto_place_fleet(True)
 		while True:
 			mode = input("Select mode:")
 			try:
@@ -39,9 +41,9 @@ class Game:
 		self.players = [p1, p2]
 		
 		for player in self.players:
-			player.board.print_board()
+			player.board.print_board(True)
 			print(f"\n{player.name}, place your fleet.")
-			player.place_fleet()
+			player.choose_place_fleet_mode()
 			print("Pass this to the other player")
 			input(f"Press enter for {player.name} turn")
 			self.clear_screen()

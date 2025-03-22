@@ -1,3 +1,5 @@
+import random
+
 from board import Board
 from ship import Ship
 
@@ -37,3 +39,44 @@ class Player:
 					print("Invalid position! The ship is out of range. Try again")
 				else:
 					self.board.print_board(True)
+
+	def auto_place_fleet(self, demo=False):
+		for ship_name, ship_size in self.ships:
+			placed = False
+			while not placed:
+				# Generate random position and orientation
+				col = random.randint(1, self.board.size)
+				row = random.randint(1, self.board.size)
+				vertical = random.choice([True, False])
+				
+				# Create new ship instance
+				ship = Ship(ship_name, ship_size)
+				
+				# Attempt placement
+				placed = self.board.place_ship(ship, col, row, vertical, True)
+		if not demo:
+			print(f"{self.name}'s ships have been placed automatically!")
+		self.board.print_board(True)
+
+	def choose_place_fleet_mode(self):
+		chosen = False
+		print("Choose your placing mode\n"
+		"1. Manual\n"
+		"2. Randomly selected")
+
+		while True:
+			mode = input("Select mode:")
+			try:
+				mode = int(mode)
+			except ValueError:
+				print(f"Invalid number: '{mode}'. Please enter a valid numeric string.")
+				continue
+			self.game_mode = mode
+			if self.game_mode == 1:
+				self.place_fleet()
+				break
+			elif self.game_mode == 2:
+				self.auto_place_fleet()
+				break
+			else:
+				print("Invalid choice! Please enter 1 or 2")

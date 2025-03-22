@@ -25,40 +25,46 @@ class Board:
             return '🌊'
         return cell
 
-    def place_ship(self, ship, start_col, start_row, is_vertical):
+    def place_ship(self, ship, start_col, start_row, is_vertical, automated=False):
+        """Place a ship on the board with optional silent mode for auto-placement"""
         # Convert to 0-based indices
         col = start_col - 1
         row = start_row - 1
 
         # Validate input
         if not (0 <= col < self.size) or not (0 <= row < self.size):
-            print(f"Coordinates must be between 1 and {self.size}!")
+            if not automated:
+                print(f"Coordinates must be between 1 and {self.size}!")
             return False
 
         # Check vertical placement
         if is_vertical:
             if row + ship.size > self.size:
-                print(f"Needs {ship.size} rows starting from row {start_row}!")
+                if not automated:
+                    print(f"Needs {ship.size} rows starting from row {start_row}!")
                 return False
             for i in range(ship.size):
                 if self.grid[row+i][col] != '🌊':
-                    print(f"Column {start_col}, row {start_row+i} is occupied!")
+                    if not automated:
+                        print(f"Column {start_col}, row {start_row+i} is occupied!")
                     return False
         # Check horizontal placement
         else:  
             if col + ship.size > self.size:
-                print(f"Needs {ship.size} columns starting from column {start_col}!")
+                if not automated:
+                    print(f"Needs {ship.size} columns starting from column {start_col}!")
                 return False
             for i in range(ship.size):
                 if self.grid[row][col+i] != '🌊':
-                    print(f"Column {start_col+i}, row {start_row} is occupied!")
+                    if not automated:
+                        print(f"Column {start_col+i}, row {start_row} is occupied!")
                     return False
 
         # Place the ship
         for i in range(ship.size):
             if is_vertical:
                 self.grid[row+i][col] = '🚢'
-                ship.add_positions(start_row+i, start_col)  # Store as (row, col)
+                ship.add_positions(start_row+i, start_col)
             else:
                 self.grid[row][col+i] = '🚢'
                 ship.add_positions(start_row, start_col+i)
