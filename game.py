@@ -83,7 +83,7 @@ class Game:
 			defender.board.grid[row][col] = '💥'
 			# Update ship hits
 			for ship in defender.board.ships:
-				if (row, col) in ship.positions:
+				if (col + 1, row + 1) in ship.positions:
 					ship.hits += 1
 					if ship.is_sunk():
 						print(f"{ship.name} SUNK! 🎯")

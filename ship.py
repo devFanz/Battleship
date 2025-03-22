@@ -9,6 +9,6 @@ class Ship:
 	def is_sunk(self):
 		return self.hits >= self.size
 	
-	def add_positions(self, row, col):
-		self.positions.append((row, col))
+	def add_positions(self, col, row):
+		self.positions.append((col, row))
 	

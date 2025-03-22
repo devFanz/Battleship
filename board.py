@@ -65,9 +65,11 @@ class Board:
             if is_vertical:
                 self.grid[row+i][col] = '🚢'
                 ship.add_positions(start_row+i, start_col)
+                ship.add_positions(start_col, start_row + i)
             else:
                 self.grid[row][col+i] = '🚢'
                 ship.add_positions(start_row, start_col+i)
+                ship.add_positions(start_col + i, start_row)
 
         self.ships.append(ship)
         return True
