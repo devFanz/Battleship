@@ -8,15 +8,19 @@ class Game:
 	def __init__(self):
 		self.players = []
 		self.game_mode = 1
+		self.game_modes = {
+			1: "Classic Mode",
+			2: "Rapid Fire Mode"
+		}
 
 	def start_menu(self):
 		# print("===BATTLESHIP===")
-		print("""
-		===BATTLESHIP===
-        1. Classic Mode
-        2. Rapid Fire Mode
-        3. Exit
-        """)
+		print(
+		"===BATTLESHIP===\n"
+        "1. Classic Mode\n"
+        "2. Rapid Fire Mode\n"
+        "3. Exit"
+        )
 		demo = Player("Demo")
 		demo.auto_place_fleet(True)
 		while True:
@@ -96,6 +100,8 @@ class Game:
 		return all(ship.is_sunk() for ship in player.board.ships)
 	
 	def play(self):
+		self.clear_screen()
+		print(f"===Selected {self.game_modes[self.game_mode]}===\n\n")
 		self.setup_board()
 		current_player, opponent = self.players
 		
