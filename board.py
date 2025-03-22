@@ -25,42 +25,43 @@ class Board:
             return '🌊'
         return cell
 
-    def place_ship(self, ship, row, col, is_vertical):
-        
-        row -= 1
-        col -= 1
-        
-        # Validate input range
-        if row < 0 or row >= self.size or col < 0 or col >= self.size:
+    def place_ship(self, ship, start_col, start_row, is_vertical):
+        # Convert to 0-based indices
+        col = start_col - 1
+        row = start_row - 1
+
+        # Validate input
+        if not (0 <= col < self.size) or not (0 <= row < self.size):
             print(f"Coordinates must be between 1 and {self.size}!")
             return False
 
-        # Check boundaries
+        # Check vertical placement
         if is_vertical:
             if row + ship.size > self.size:
-                print(f"Ship needs {ship.size} vertical spaces starting at row {row+1}!")
+                print(f"Needs {ship.size} rows starting from row {start_row}!")
                 return False
             for i in range(ship.size):
                 if self.grid[row+i][col] != '🌊':
-                    print(f"Row {row+i+1}, column {col+1} is occupied!")
+                    print(f"Column {start_col}, row {start_row+i} is occupied!")
                     return False
-        else:
+        # Check horizontal placement
+        else:  
             if col + ship.size > self.size:
-                print(f"Ship needs {ship.size} horizontal spaces starting at column {col+1}!")
+                print(f"Needs {ship.size} columns starting from column {start_col}!")
                 return False
             for i in range(ship.size):
                 if self.grid[row][col+i] != '🌊':
-                    print(f"Row {row+1}, column {col+i+1} is occupied!")
+                    print(f"Column {start_col+i}, row {start_row} is occupied!")
                     return False
 
         # Place the ship
         for i in range(ship.size):
             if is_vertical:
                 self.grid[row+i][col] = '🚢'
-                ship.add_positions(row+i+1, col+1)  # Store 1-based positions
+                ship.add_positions(start_row+i, start_col)  # Store as (row, col)
             else:
                 self.grid[row][col+i] = '🚢'
-                ship.add_positions(row+1, col+i+1)
+                ship.add_positions(start_row, start_col+i)
 
         self.ships.append(ship)
         return True

@@ -56,8 +56,8 @@ class Game:
 		
 		while True:
 			try:
-				row = int(input("Attack row (1-10): ")) - 1
 				col = int(input("Attack column (1-10): ")) - 1
+				row = int(input("Attack row (1-10): ")) - 1
 
 				if not (0 <= row < 10) or not (0 <= col < 10):
 					print("Invalid coordinates! Use 1-10")
