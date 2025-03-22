@@ -8,17 +8,17 @@ class Board:
     def print_board(self, show_ships=False):
 
         # Top border with numbers
-        top = [self.num_emoji[0]] + self.num_emoji[1:self.size+1] + [self.num_emoji[0]]
-        print(' '.join(c for c in top))
+        edge = [self.num_emoji[0]] + self.num_emoji[1:self.size+1] + [self.num_emoji[0]]
+        print(' '.join(c for c in edge))
 
         # Board rows
         for i, row in enumerate(self.grid):
-            left_num = self.num_emoji[i+1]
-            cells = [left_num] + [self._format_cell(cell, show_ships) for cell in row] + [left_num]
+            side_num = self.num_emoji[i+1]
+            cells = [side_num] + [self._format_cell(cell, show_ships) for cell in row] + [side_num]
             print(' '.join(c for c in cells))
 
         # Bottom border with numbers
-        print(' '.join(c for c in top))
+        print(' '.join(c for c in edge))
 
     def _format_cell(self, cell, show_ships):
         if cell == '🚢' and not show_ships:
