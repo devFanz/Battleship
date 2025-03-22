@@ -1,5 +1,5 @@
 import os
-import platform
+import random
 
 from player import Player
 
@@ -14,7 +14,6 @@ class Game:
 		}
 
 	def start_menu(self):
-		# print("===BATTLESHIP===")
 		print(
 		"===BATTLESHIP===\n"
         "1. Classic Mode\n"
@@ -58,7 +57,6 @@ class Game:
 			print("Pass this to the other player")
 			input(f"Press enter for {player.name} turn")
 			self.clear_screen()
-			# print("\033[H\033[J", end="")
 			
 	def show_both_boards(self, attacker, defender):
 		print(f"{attacker.name}'s Board'")
@@ -131,7 +129,6 @@ class Game:
 		
 		while True:
 			self.clear_screen()
-			# print("\033[H\033[J", end="")
 			print(f"Pass this to {current_player.name}")
 			input("Press enter to continue")
 			hit = self.play_turn(current_player, opponent)

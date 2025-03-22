@@ -17,10 +17,7 @@ class Player:
 		("Destroyer", 2)
 		]
 		if use_shields:
-			self.ships.append(("Shield", 1))  # Add shield ship
-		# self.ships = [
-		# ("Carrier", 5)
-		# ]
+			self.ships.append(("Shield", 1))
 	def place_fleet(self):
 		for ship_name, ship_size in self.ships:
 			placed = False
@@ -46,15 +43,12 @@ class Player:
 		for ship_name, ship_size in self.ships:
 			placed = False
 			while not placed:
-				# Generate random position and orientation
 				col = random.randint(1, self.board.size)
 				row = random.randint(1, self.board.size)
 				vertical = random.choice([True, False])
 				
-				# Create new ship instance
 				ship = Ship(ship_name, ship_size)
 				
-				# Attempt placement
 				placed = self.board.place_ship(ship, col, row, vertical, True)
 		if not demo:
 			print(f"{self.name}'s ships have been placed automatically!")

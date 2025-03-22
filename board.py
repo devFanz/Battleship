@@ -31,13 +31,11 @@ class Board:
         col = start_col - 1
         row = start_row - 1
 
-        # Validate input
         if not (0 <= col < self.size) or not (0 <= row < self.size):
             if not automated:
                 print(f"Coordinates must be between 1 and {self.size}!")
             return False
-
-        # Check vertical placement
+        
         if is_vertical:
             if row + ship.size > self.size:
                 if not automated:
@@ -48,7 +46,7 @@ class Board:
                     if not automated:
                         print(f"Column {start_col}, row {start_row+i} is occupied!")
                     return False
-        # Check horizontal placement
+                
         else:  
             if col + ship.size > self.size:
                 if not automated:
@@ -61,7 +59,6 @@ class Board:
                     return False
 
         ship_emoji = '🛡️ ' if ship.name == "Shield" else '🚢'
-        # Place the ship
         for i in range(ship.size):
             if is_vertical:
                 self.grid[row+i][col] = ship_emoji
