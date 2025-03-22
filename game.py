@@ -92,7 +92,7 @@ class Game:
 			print("💦 MISS!💦")
 			defender.board.grid[row][col] = '💦'
 		defender.board.print_board()
-		input("Press enter to conitnue")
+		input("Press enter to continue")
 		return hit
 		
 
@@ -109,7 +109,7 @@ class Game:
 			self.clear_screen()
 			# print("\033[H\033[J", end="")
 			print(f"Pass this to {current_player.name}")
-			input("Press enter to conitnue")
+			input("Press enter to continue")
 			hit = self.play_turn(current_player, opponent)
 			while self.game_mode == 2 and hit:
 				hit = self.play_turn(current_player, opponent)
