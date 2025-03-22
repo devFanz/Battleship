@@ -21,7 +21,7 @@ class Board:
         print(' '.join(c for c in edge))
 
     def _format_cell(self, cell, show_ships):
-        if cell == '🚢' and not show_ships:
+        if (cell in ('🚢', '🛡️ ')) and not show_ships:
             return '🌊'
         return cell
 
@@ -60,15 +60,14 @@ class Board:
                         print(f"Column {start_col+i}, row {start_row} is occupied!")
                     return False
 
+        ship_emoji = '🛡️ ' if ship.name == "Shield" else '🚢'
         # Place the ship
         for i in range(ship.size):
             if is_vertical:
-                self.grid[row+i][col] = '🚢'
-                ship.add_positions(start_row+i, start_col)
+                self.grid[row+i][col] = ship_emoji
                 ship.add_positions(start_col, start_row + i)
             else:
-                self.grid[row][col+i] = '🚢'
-                ship.add_positions(start_row, start_col+i)
+                self.grid[row][col+i] = ship_emoji
                 ship.add_positions(start_col + i, start_row)
 
         self.ships.append(ship)

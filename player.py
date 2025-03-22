@@ -5,7 +5,7 @@ from ship import Ship
 
 
 class Player:
-	def __init__(self, name):
+	def __init__(self, name, use_shields=False):
 		self.name = name
 		self.board = Board()
 		# self.enemy_board = Board()
@@ -16,6 +16,8 @@ class Player:
 		("Submarine", 3),
 		("Destroyer", 2)
 		]
+		if use_shields:
+			self.ships.append(("Shield", 1))  # Add shield ship
 		# self.ships = [
 		# ("Carrier", 5)
 		# ]
@@ -28,7 +30,7 @@ class Player:
 				try:
 					col = int(input("Enter column (1-10): "))
 					row = int(input("Enter row (1-10): "))
-					vertical = input("Vertical? (y/n): ").lower() == 'y'
+					vertical = input("Vertical? (y/n): ").lower() == 'y' if ship_size > 1 else "0"
 				except ValueError:
 					print("Invalid input! Use numbers 1-10")
 					continue
